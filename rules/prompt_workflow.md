@@ -100,6 +100,8 @@ Cuando un compañero solicita un nuevo prompt, la IA debe:
    - ¿Qué campos incluye el usuario? (name, email, password, …)
    - ¿Hay validaciones adicionales?
    - ¿Se debe enviar un email de bienvenida?
+   - ¿Los datos que se procesan están sujetos a normas de privacidad como HIPAA? (por ejemplo, datos de salud)
+   - ¿Se requiere integración con herramientas de análisis de calidad como SonarQube?
 
    ## Prompt detallado generado
    
@@ -107,6 +109,12 @@ Cuando un compañero solicita un nuevo prompt, la IA debe:
    ```
 
 Esta estructura asegura que todos los prompts sean claros, reproducibles y trazables.
+
+## Ayudante de procedimientos y guía interactiva
+
+Para facilitar la creación y ejecución de prompts, se ha incluido una guía de ayuda en la ruta `docs/helper.md`. Esta guía explica de manera amigable cómo funciona la interacción con la IA, qué preguntas de clarificación son comunes, cómo interpretar el código generado y cómo validar su funcionamiento. Se recomienda revisar `helper.md` antes de comenzar a trabajar con los prompts, especialmente si es la primera vez que se utiliza este flujo de trabajo. La guía incluye ejemplos de controladores, servicios, módulos, DTOs, uso de logs, pruebas y referencias a la documentación oficial de NestJS.
+
+Además, el asistente de IA debe utilizar esta guía como referencia para formular sus preguntas y para explicar cualquier código generado al usuario final. De esta forma, se garantiza que el conocimiento se transfiera claramente y que el equipo comprenda cada paso del proceso.
 
 ## Conexión con el backend
 

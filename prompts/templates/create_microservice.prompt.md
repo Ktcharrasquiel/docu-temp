@@ -19,6 +19,8 @@ Generar un microservicio nuevo llamado `<service-name>` en el monorepo.
 - ¿Existe un modelo de datos preliminar (entidades, relaciones)?
 - ¿Requiere autenticación o autorización?
 - ¿Debe incluir logging, métricas u otras integraciones (Pub/Sub, Redis)?
+ - ¿El microservicio gestionará datos de salud o información sensible que deba cumplir con HIPAA? En caso afirmativo, especifique si se necesita enmascarar datos en logs o establecer controles de acceso adicionales.
+ - ¿Se debe integrar análisis de calidad con SonarQube u otra herramienta de análisis estático en el pipeline CI/CD? Si es así, proporcione detalles sobre el servidor SonarQube o tokens.
 
 ## Prompt detallado generado
 

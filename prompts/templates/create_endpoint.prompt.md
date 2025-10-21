@@ -19,6 +19,8 @@ Generar un nuevo endpoint `<HTTP_METHOD> /<resource>` para el microservicio `<se
 - ¿Qué datos retorna? (estructura de respuesta)
 - ¿Requiere autenticación? ¿Qué roles pueden acceder?
 - ¿Debe registrarse en logs o métricas adicionales?
+ - ¿El endpoint procesa o devuelve información de salud que esté sujeta a normas HIPAA? Si es así, ¿cómo deben anonimizarse o enmascararse los datos?
+ - ¿Se necesita incluir análisis de calidad (SonarQube) para esta funcionalidad? ¿Debe actualizarse la configuración de SonarQube?
 
 ## Prompt detallado generado
 

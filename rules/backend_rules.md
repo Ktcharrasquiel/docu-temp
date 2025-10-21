@@ -140,6 +140,18 @@ Cuando se active multi‑tenant, cada nuevo inquilino tendrá su propia base de 
 - Cada Pull Request debe incluir un checklist indicando que se respetan estas reglas, las migraciones y pruebas se ejecutan, y la documentación está actualizada.
 - Proteja la rama `main`/`develop` con revisiones obligatorias.
 
+### Especificación de APIs y documentación
+
+Para garantizar coherencia y transparencia en las integraciones, cada microservicio debe exponer su API a través de una especificación **OpenAPI (Swagger)**. Utilice los decoradores proporcionados por `@nestjs/swagger` para documentar rutas, DTOs y modelos de respuesta. Incluya ejemplos y descripciones detalladas para cada endpoint. Consulte la guía `docs/api_specification.md` para buenas prácticas de versionado, diseño de rutas y generación de documentación interactiva.
+
+### Calidad de código y SonarQube
+
+Integre **SonarQube** en el pipeline de integración continua para analizar el código y detectar bugs, vulnerabilidades y code smells. Defina un *Quality Gate* (por ejemplo, cobertura > 85 %, cero vulnerabilidades críticas) y asegure que cualquier branch o Pull Request cumpla con este umbral antes de fusionar. La configuración de SonarQube, ejemplos de `sonar-project.properties` y pasos de CI se encuentran en `docs/sonarqube.md`.
+
+### Cumplimiento de la normativa HIPAA
+
+Si su aplicación maneja **información de salud protegida (PHI)**, aplique las medidas indicadas en `docs/hipaa_compliance.md` para cumplir con HIPAA. Estas incluyen cifrado en tránsito y en reposo, control de acceso y roles, auditoría y monitoreo, minimización y eliminación segura de datos, y firma de acuerdos BAA con proveedores externos. Recuerde que no debe registrar datos sensibles en los logs y que es indispensable implementar controles de seguridad adicionales.
+
 ### Despliegue y ejecución local
 
 - Cree un `Dockerfile` en cada microservicio. Para levantar todos los servicios use `docker-compose up --build`.

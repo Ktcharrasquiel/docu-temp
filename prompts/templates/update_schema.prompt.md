@@ -19,6 +19,8 @@ Actualizar el esquema de base de datos para agregar o modificar una tabla/column
 - ¿Hay datos existentes que deban migrarse o transformarse?
 - ¿La migración afecta a múltiples microservicios?
 - ¿Se requiere migrar datos por tenant o globalmente?
+ - ¿Los cambios afectan a tablas que contienen información de salud protegida (PHI)? Si es así, describa las medidas que se deben tomar para cumplir con HIPAA (p. ej., migrar datos enmascarados, actualizar permisos).
+ - ¿Se debe actualizar la cobertura de calidad de código (por ejemplo, ajustar reglas de SonarQube) para reflejar las modificaciones del esquema?
 
 ## Prompt detallado generado
 
