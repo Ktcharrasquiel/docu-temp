@@ -62,11 +62,15 @@ monorepo-root/
 
 ### Multi‑tenant y modelo actual
 
-La arquitectura está preparada para operar en un entorno multi‑tenant. Sin embargo, **actualmente se utiliza un único inquilino (monoinquilino)** alojado en una base de datos llamada `hero_main`. La migración a multi‑tenant se realiza añadiendo un campo `tenant_id` en cada tabla y una factoría de conexiones que genera un `DataSource` por tenant. Para el estado actual:
+El proyecto está diseñado para soportar múltiples inquilinos utilizando **una base de datos independiente por inquilino**. Este enfoque (DB‑per‑tenant) proporciona un aislamiento máximo y permite escalar cada cliente de forma independiente. Aunque actualmente el entorno es **monoinquilino** (una sola base de datos `hero_main`), la arquitectura incluye el servicio `TenantDatabaseService` y un catálogo de tenants para crear y gestionar conexiones separadas.
 
-- Todas las tablas incluyen un campo `tenant_id` con valor por defecto `DEFAULT`.
-- Los servicios no resuelven el tenant dinámicamente, pero mantienen la capacidad de hacerlo en el futuro.
-- Los logs y métricas deben incluir el campo `tenantId` para facilitar la futura segregación.
+En el modo monoinquilino actual:
+
+- Existe únicamente la base de datos `hero_main`, donde todos los datos comparten tablas.
+- Las tablas pueden incluir un campo `tenant_id` con valor `DEFAULT`, pero este se considera un mecanismo transitorio que dejará de usarse cuando se active el aprovisionamiento por inquilino.
+- Los servicios no resuelven el tenant de forma dinámica porque no hay más de uno; en el futuro, recibirán `x-tenant-id` o lo extraerán del JWT para seleccionar la conexión correspondiente.
+
+Cuando se active multi‑tenant, cada nuevo inquilino tendrá su propia base de datos y sus propias variables de entorno (`DATABASE_URL`). Los logs y métricas deben incluir siempre el campo `tenantId` para facilitar la segregación y auditoría.
 
 ### Políticas de migraciones
 

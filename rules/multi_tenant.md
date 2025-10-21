@@ -2,23 +2,13 @@
 
 Esta guía describe cómo preparar y evolucionar el backend para soportar múltiples inquilinos (tenants) de forma aislada. Aunque el proyecto actual se ejecuta en modo monoinquilino (una sola base de datos), se ha diseñado con la flexibilidad necesaria para pasar a multi‑tenant.
 
-## Modelos de multi‑tenant
+## Modelo de multi‑tenant elegido
 
-1. **Base de datos por inquilino (model DB-per-tenant)**
-   - Cada cliente tiene su propia instancia o base de datos.
-   - Máximo aislamiento y seguridad.
-   - Mayor coste de gestión (múltiples conexiones, escalado complejo).
+El proyecto Hero Med adoptará el modelo **base de datos por inquilino** (DB‑per‑tenant). Esto significa que cada cliente o institución contará con su propia base de datos o instancia de base de datos, ofreciendo el mayor nivel de aislamiento, seguridad y capacidad de personalización.
 
-2. **Esquema por inquilino**
-   - Una base de datos con múltiples esquemas (por ejemplo, `tenant_a`, `tenant_b`).
-   - Aislamiento moderado y configuración centralizada.
-   - Requiere que las migraciones se apliquen a cada esquema.
+Aunque existen otros modelos, como el uso de esquemas por inquilino o tablas compartidas con un campo `tenant_id`, estos se consideran alternativas pero no forman parte del diseño objetivo.
 
-3. **Tabla compartida con columna `tenant_id`**
-   - Todas las filas comparten las mismas tablas y se distinguen por `tenant_id`.
-   - Económico y fácil de gestionar, pero requiere filtros en todas las consultas.
-
-El monorepo está preparado para los tres modelos. Actualmente se emplea el modelo **monoinquilino** (una base de datos) con columna `tenant_id` para permitir la futura migración.
+En la fase actual, el entorno está configurado en modo **monoinquilino** utilizando una sola base de datos (`hero_main`). Sin embargo, el código y la infraestructura están listos para que, al registrar un nuevo inquilino, se aprovisione automáticamente una nueva base de datos (por ejemplo, `hero_tenant02`) y se configure la conexión adecuada a través del catálogo `tenants`.
 
 ## Implementación recomendada (DB por inquilino)
 
@@ -29,11 +19,15 @@ El monorepo está preparado para los tres modelos. Actualmente se emplea el mode
   - Reclamaciones del JWT (una vez habilitada la autenticación).
 - Use un pool de conexiones por inquilino y ciérrelas cuando no se utilicen.
 
-## Implementación actual (monoinquilino)
+## Implementación actual
 
-- Existe una única base de datos `hero_main`.
-- Todas las tablas tienen un campo `tenant_id` con valor `DEFAULT`.
-- El código mantiene la interfaz `TenantDatabaseService` para facilitar la transición a multi‑tenant. Por ahora, siempre devuelve la misma conexión.
+Mientras no existan múltiples inquilinos registrados, el sistema opera con una sola base de datos llamada `hero_main`. En este modo:
+
+- Solo se aprovisiona una base de datos física.
+- Las tablas pueden incluir un campo `tenant_id` con valor predeterminado `DEFAULT` para compatibilidad futura, pero este no se utiliza para aislar datos.
+- El servicio `TenantDatabaseService` devuelve siempre la misma conexión a `hero_main`.
+
+Cuando se registra un nuevo inquilino, el automatismo de aprovisionamiento creará una nueva base de datos (por ejemplo, `hero_tenant2`) y actualizará el catálogo `tenants` con sus credenciales. A partir de ese momento, cada petición que incluya `x-tenant-id` utilizará su propia base de datos.
 
 ## Migración de monoinquilino a multi‑tenant
 
