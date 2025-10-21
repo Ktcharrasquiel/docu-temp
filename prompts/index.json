@@ -1,0 +1,25 @@
+{
+  "prompts": [
+    {
+      "prompt_id": "001_create_new_service",
+      "feature": "NEW_SERVICE",
+      "nombre": "Crear microservicio base",
+      "ejecutado": false,
+      "path": "templates/create_microservice.prompt.md"
+    },
+    {
+      "prompt_id": "002_create_new_endpoint",
+      "feature": "ADD_ENDPOINT",
+      "nombre": "Crear un nuevo endpoint",
+      "ejecutado": false,
+      "path": "templates/create_endpoint.prompt.md"
+    },
+    {
+      "prompt_id": "003_update_database_schema",
+      "feature": "UPDATE_SCHEMA",
+      "nombre": "Actualizar el esquema de base de datos",
+      "ejecutado": false,
+      "path": "templates/update_schema.prompt.md"
+    }
+  ]
+}
